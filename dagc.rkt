@@ -3,7 +3,7 @@
 (require srfi/1)
 (require srfi/2)
 
-(provide choice scene build-game play-game scenes choices)
+(provide choice scene build-game play-game scenes choices game-over)
 
 (define scenes list)
 (define choices list)
