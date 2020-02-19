@@ -12,5 +12,5 @@
                (scene 1 "这个游戏是不是很枯燥"
                      (choices (choice "枯燥" 2)
                               (choice "不枯燥" 3)))
-               (scene 2 "无聊的周一，随便挑了一名十佳员工，将他开除" null)
-               (scene 3 "你看，这就是你的不对了" null))))
+               (scene 2 "无聊的周一，随便挑了一名十佳员工，将他开除" game-over)
+               (scene 3 "你看，这就是你的不对了" game-over))))
