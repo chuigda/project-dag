@@ -5,6 +5,28 @@
 
 (provide choice scene build-game play-game scenes choices game-over)
 
+(define (display-twr s)
+  (let ([chars (string->list s)])
+    (define (display-twr-iter chars)
+      (if (null? chars)
+          void
+          (begin
+            (write-char (car chars))
+            (sleep 0.05)
+            (flush-output)
+            (display-twr-iter (cdr chars)))))
+    (display-twr-iter chars)))
+
+(define (display-flush s)
+  (begin
+    (display s)
+    (flush-output)))
+
+(define (display-twr-pause s)
+  (begin
+    (display-twr s)
+    (read-line)))
+
 (define scenes list)
 (define choices list)
 (define game-over null)
@@ -59,13 +81,15 @@
                            (read-choice-loop))]
                    [else (list-ref choices (- idx 1))])))
             (read-choice-loop))
+       (define (display-desc desc)
+         (cond [(list? desc) (for-each display-desc desc)]
+               [(procedure? desc) (display-desc (desc game-env))]
+               [else (display-twr-pause desc)]))
        (define (play-game-int scene)
          (let ([id (scene-id scene)]
                [desc (scene-desc scene)]
                [choices (scene-choices scene)])
-           (if (procedure? desc)
-               (displayln (desc game-env))
-               (displayln desc))
+           (display-desc desc)
            (if (null? choices)
                (exit^ "game exited.")
                (begin
@@ -73,8 +97,9 @@
                   (lambda (p)
                     (let ([idx (car p)]
                           [choice (cdr p)])
-                      (displayln (string-append (~a (+ 1 idx)) "." (choice-desc choice)))))
+                      (displayln (string-append "  " (~a (+ 1 idx)) ". " (choice-desc choice)))))
                   (enumerate choices))
+                 (display-flush "choice> ")
                  (let* ([choice (read-choice choices)]
                         [branch (choice-branch choice)]
                         [branch-actual (if (procedure? branch) (branch game-env) branch)]

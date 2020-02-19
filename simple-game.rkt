@@ -10,7 +10,8 @@
              "这个游戏，就是这么地朴实无华，且枯燥"
              (scenes
                (scene 1 "这个游戏是不是很枯燥"
-                     (choices (choice "枯燥" 2)
-                              (choice "不枯燥" 3)))
-               (scene 2 "无聊的周一，随便挑了一名十佳员工，将他开除" game-over)
+                      (choices (choice "枯燥" 2)
+                               (choice "不枯燥" 3)))
+               (scene 2 "无聊的周一，翻开我名下的杂志，随便指了一名十佳员工，吩咐人事经理把他辞退。" 
+                      game-over)
                (scene 3 "你看，这就是你的不对了" game-over))))

@@ -19,7 +19,8 @@
                  (lambda (game-env)
                    (begin
                      (game-env 'set 'cnt (+ (game-env 'get 'cnt) 1))
-                     (string-append "无聊的周一，翻开我名下的杂志,随便指了一名十佳员工，吩咐人事经理把他辞退。"
+                     (string-append "无聊的周一，翻开我名下的杂志，随便指了一名十佳员工，"
+                                    "吩咐人事经理把他辞退。\n"
                                     "你已经开除了 " (~a (game-env 'get 'cnt)) " 个员工。")))
                  (choices (choice "继续" 1)))
                (scene 3 "辞退的够多了，再这样下去，公司迟早要完旦"  game-over)
