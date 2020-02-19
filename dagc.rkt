@@ -51,13 +51,13 @@
              (cond [(false? idx)
                     (begin (displayln "please input a positive integer")
                            (read-choice-loop))]
-                   [(< idx 0)
+                   [(< idx 1)
                     (begin (displayln "please input a positive integer")
                            (read-choice-loop))]
-                   [(>= idx (length choices))
+                   [(> idx (length choices))
                     (begin (displayln "input too big: no such choice")
                            (read-choice-loop))]
-                   [else (list-ref choices idx)])))
+                   [else (list-ref choices (- idx 1))])))
             (read-choice-loop))
        (define (play-game-int scene)
          (let ([id (scene-id scene)]
@@ -73,7 +73,7 @@
                   (lambda (p)
                     (let ([idx (car p)]
                           [choice (cdr p)])
-                      (displayln (string-append (~a idx) "." (choice-desc choice)))))
+                      (displayln (string-append (~a (+ 1 idx)) "." (choice-desc choice)))))
                   (enumerate choices))
                  (let* ([choice (read-choice choices)]
                         [branch (choice-branch choice)]
