@@ -3,7 +3,11 @@
 (require srfi/1)
 (require srfi/2)
 
-(provide choice scene build-game play-game)
+(provide choice scene build-game play-game scenes choices)
+
+(define scenes list)
+(define choices list)
+(define game-over null)
 
 (struct choice (desc branch))
 
