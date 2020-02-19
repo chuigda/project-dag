@@ -1,5 +1,10 @@
 #lang racket
 
+(require srfi/1)
+(require srfi/2)
+
+(provide choice scene game play-game)
+
 (struct choice (desc branch))
 
 (struct scene (id desc choices))
@@ -8,8 +13,10 @@
 
 (define (enumerate list)
   (define (enumerate-int list counter)
-    (cons (cons counter (car list))
-          (enumerate-int (cdr list) (+ counter 1))))
+    (if (null? list) 
+        null
+        (cons (cons counter (car list))
+              (enumerate-int (cdr list) (+ counter 1)))))
   (enumerate-int list 0))
 
 (define (play-game game)
@@ -39,10 +46,10 @@
          (let ([id (scene-id scene)]
                [desc (scene-desc scene)]
                [choices (scene-choices scene)])
+           (displayln desc)
            (if (null? choices)
                (exit^ "game exited.")
                (begin
-                 (displayln desc)
                  (for-each
                   (lambda (p)
                     (let ([idx (car p)]
@@ -50,15 +57,16 @@
                       (displayln (string-append (~a idx) "." (choice-desc choice)))))
                   (enumerate choices))
                  (let* ([choice (read-choice choices)]
-                        [branch (choice-branch choice)])
-                   (cond [(< choice-branch 0)
-                          (exit^ "sanity check failed: negative choice branch")]
-                         [(>= choice-branch (length scenes))
-                          (exit^ "sanity check failed: invalid choice branch")]
-                         [else (play-game-int (list-ref scenes branch))])
-                   )))))
+                        [branch (choice-branch choice)]
+                        [next-scene (find (lambda (scene) (= (scene-id scene) branch))
+                                          scenes)])
+                   (if (false? next-scene)
+                       (exit^ (string-append "sanity check failed: scene "
+                                             (~a branch)
+                                             " does not exist"))
+                       (play-game-int next-scene)))))))
        (begin
          (displayln name)
          (displayln (string-append "created by: " author))
-         )))))
+         (play-game-int (car scenes)))))))
 
