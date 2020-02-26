@@ -1,7 +1,9 @@
 #lang racket
 
-(require srfi/1)
-(require srfi/2)
+(define (find f ls)
+  (cond [(null? ls) false]
+        [(f (car ls)) (car ls)]
+        [else (find f (cdr ls))]))
 
 (provide choice scene build-game play-game scenes choices game-over say)
 
