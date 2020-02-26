@@ -3,7 +3,7 @@
 (require srfi/1)
 (require srfi/2)
 
-(provide choice scene build-game play-game scenes choices game-over)
+(provide choice scene build-game play-game scenes choices game-over say)
 
 (define (display-twr s)
   (let ([chars (string->list s)])
@@ -115,3 +115,5 @@
          (displayln name)
          (displayln (string-append "created by: " author))
          (play-game-int (car scenes)))))))
+
+(define (say x y) (string-append x "：「" y "」"))

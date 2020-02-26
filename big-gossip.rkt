@@ -29,4 +29,4 @@
                             "因为 我  疯~~~~~~ 了！"
                             "好吧，祝你玩的愉快")
                       (choices (choice "好的，多谢" 2)))
-                 (scene 2 "游戏结束" game-over))))
+               (scene 2 "游戏结束" game-over))))
