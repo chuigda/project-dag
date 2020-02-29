@@ -48,7 +48,7 @@
       (cond [(equal? message 'set)
              (hash-set! vars (car body) (cadr body))]
             [(equal? message 'get)
-             (hash-ref vars (car body) null)]))))
+             (hash-ref vars (car body) false)]))))
 
 (define (enumerate list)
   (define (enumerate-int list counter)

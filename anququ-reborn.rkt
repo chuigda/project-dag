@@ -72,15 +72,16 @@
                            (lxz-says "那我也一起来看好咯")
                            "..."
                            "不知不觉就到了下班时间"
-                           (me-says "下班了，会宿舍休息吧")
+                           (me-says "下班了，回宿舍休息吧")
                            (lxz-says "可是... 可是研究进度的话...")
                            (me-says "没关系，有师兄我呢")
                            (lxz-says "那... 师兄不要太累哦")
                            "听到凌筱竹的声音，自己居然有些心痛"
                            "心痛自己过去一直生活在虚假和欺骗之中"
                            "心痛这样一个女孩子居然会成为导师的工具人"
-                           (me-says "...嗯，没事的"))
-                     game-over)
+                           (me-says "...嗯，没事的")
+                           "也许，应该作出一些改变了")
+                     (choices (choice "告诉凌筱竹自己知道她在窃取自己的研究进度" 6)))
             (scene 5 (list "既然你这么喜欢窃取研发进度，那么我就把研发进度搞成负数！"
                            (me-says "（沉思...）")
                            "在记忆中搜索无数种可能的反向优化方案... "
@@ -115,7 +116,37 @@
                            (lxz-says "那我先回去咯")
                            (me-says "嗯，剩下的事情我差不多能一个人完成了")
                            "看着师妹的背影，Anqur笑了笑")
-                     game-over)
+                   game-over)
+            (scene 6 (list "既然决定当面揭穿凌筱竹，就得先收集有关的信息"
+                           "毕竟不可能告诉凌筱竹自己重生了，所以早就得知了她和导师的计划"
+                           (me-says "我可以..."))
+                   (choices (choice "检查计算机中的间谍软件" (lambda (game-env) 
+                                                               (if (game-env 'get 'spyware)
+                                                                   11
+                                                                   (begin 
+                                                                     (game-env 'set 'spyware true)
+                                                                     7))))
+                            (choice "调查凌筱竹的活动轨迹" (lambda (game-env)
+                                                             (if (game-env 'get 'trace)
+                                                                 11
+                                                                 (begin 
+                                                                   (game-env 'set 'trace true)
+                                                                   8))))
+                            (choice "询问凌筱竹的舍友" (lambda (game-env)
+                                                         (if (game-env 'get 'roommate)
+                                                           11
+                                                           (begin (game-env 'set 'roommate true)
+                                                                  9))))
+                            (choice "结束调查" 10)))
+            (scene 7 (list (me-says "凌筱竹有我电脑的启动密码，她有可能向电脑中植入了间谍软件"))
+                   (choices (choice "调查完毕" 6)))
+            (scene 8 (list (me-says "如果这几天凌筱竹的行动轨迹不同往常，那就能说明她有所计划"))
+                   (choices (choice "调查完毕" 6)))
+            (scene 9 (list (me-says "凌筱竹的舍友应该知道一些有关的信息吧"))
+                   (choices (choice "调查完毕" 6)))
+            (scene 10 (list (me-says "那么，调查到此为止，是时候摊牌了"))
+                   game-over)
+            (scene 11 "已经进行过这项调查了" (choices (choice "返回" 6)))
             )))
 
 (play-game anququ-reborn)
