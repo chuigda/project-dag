@@ -3,10 +3,17 @@
 (require "dagc.rkt")
 
 (define (unknown-says sth) (say "？？？" sth))
-(define (lxz-says sth) (say "凌筱竹师妹" sth))
-(define (lyzh-says sth) (say "Lyzh" sth))
-(define (chui-says sth) (say "Chuigda" sth))
+
+; 安去去（Anqur），本作男主角，火箭工程师，猛犸（Mamooth）火箭引擎的最终设计者
 (define (me-says sth) (say "Anqur" sth))
+; 凌筱竹，可选的女主角，安去去的师妹
+(define (lxz-says sth) (say "凌筱竹" sth))
+; 萧雨菲，凌筱竹的舍友，安去去的中学同学
+(define (xyf-says sth) (say "萧雨菲" sth))
+; 流云坠海（Lyzh），网络安全工程师，酒精差分机（AlcoholDiff）反间谍系统的编写者，安去去的死党
+(define (lyzh-says sth) (say "Lyzh" sth))
+; 锤哥（Chuigda），精神控制能力者，休伯利安（Hyperion）系统的建设者，安去去的死党
+(define (chui-says sth) (say "Chuigda" sth))
 
 (define anququ-reborn
   (build-game 
@@ -78,12 +85,14 @@
                            (lxz-says "可是... 可是研究进度的话...")
                            (me-says "没关系，有师兄我呢")
                            (lxz-says "那... 师兄不要太累哦")
-                           "听到凌筱竹的声音，自己居然有些心痛"
+                           "凌筱竹的身影消失在实验室门外"
+                           "..."
+                           "刚刚听到凌筱竹的声音，自己居然有些心痛"
                            "心痛自己过去一直生活在虚假和欺骗之中"
                            "心痛这样一个女孩子居然会成为导师的工具人"
                            (me-says "...嗯，没事的")
                            "也许，应该作出一些改变了")
-                     (choices (choice "向凌筱竹摊牌" 6)))
+                     (choices (choice "收集证据，向凌筱竹摊牌" 6)))
             (scene 5 (list "既然你这么喜欢窃取研发进度，那么我就把研发进度搞成负数！"
                            (me-says "（沉思...）")
                            "在记忆中搜索无数种可能的反向优化方案... "
@@ -144,7 +153,8 @@
                            "Anqur 打电话给 Lyzh"
                            "..."
                            (lyzh-says "呀安去去，好久不见，项目进展怎么样了")
-                           (me-says "还是老样子，没啥改进。对了，你的 AlcoholDiff 反间谍系统能不能借我用一下")
+                           (me-says "还是老样子，没啥改进。")
+                           (me-says "对了，你的 AlcoholDiff 反间谍系统能不能借我用一下")
                            (lyzh-says "AlcoholDiff... 那东西还在开发，你要的话我马上给你送过去")
                            (me-says "那多谢了，改天请你吃饭")
                            "..."
@@ -162,8 +172,8 @@
                            (lyzh-says "AlcoholDiff，显示二进制分析")
                            (string-append
                              "“Trojan 016335: 注入于 rundll32.exe 中，使用 Snappy 算法压缩自身，\n"
-                             "利用 Windows 操作系统的 1132 号服务漏洞提升自身权限，并扫描主要工作目录，\n"
-                             "随后上传所有常见文档格式到 192.168.6.169”")
+                             "利用 Windows 操作系统的某个远程过程调用漏洞提升自身权限，\n"
+                             "并扫描主要工作目录，随后上传所有常见文档格式到 192.168.6.169”\n")
                            (string-append
                              "“Trojan 016336: 注入于 mspaint.exe 中，使用 Snappy 算法压缩自身，\n"
                              "在 mspaint.exe 启动后记录鼠标活动，在进程结束后利用 VMWare 更新服务，\n"
@@ -182,28 +192,45 @@
                            (me-says "之后的事我自己会解决，老哥别跟她一般见识，消消气")
                            (lyzh-says "...嗯，老弟听我一句劝，千万别跟这种贱人客气")
                            (me-says "放心我自有分寸")
-                           "Lyzh 把 AlcoholDiff 的分析报告存到本地，然后关掉了 AlcoholDiff，带着U盘走出了实验室"
+                           (string-append "Lyzh 把 AlcoholDiff 的分析报告存到本地，"
+                                          "然后关掉了 AlcoholDiff，带着U盘走出了实验室")
                            "取得了“间谍软件”情报")
                    (choices (choice "调查完毕" 6)))
             (scene 8 (list (me-says "如果这几天凌筱竹的行动轨迹不同往常，那就能说明她有所计划")
                            "Anqur 打电话给 Chuigda"
                            "..."
                            (chui-says "死做活做像条狗，被人骂不能汪汪叫... 哎呀，大王幸肯临臣？")
-                           (me-says "吾生竟与锤哥为伍！不闲聊了，我想借用一下 Hyperion 系统")
-                           (chui-says "Hyperion 系统？我说安去去，你不会是暗恋哪个小姑娘，想蹲她一手吧")
-                           (me-says "是啊，我最近看上了我实验室凌筱竹小师妹，正好情人节快到了，想给她个惊喜")
+                           (me-says "吾生竟与锤哥为伍！不闲聊了，我想借用一下 Hyperion 查点什么")
+                           (chui-says "Hyperion？我说安去去，你不会是暗恋哪个小姑娘，想蹲她一手吧")
+                           (me-says "是啊，我最近看上了我实验室凌筱竹小师妹，正好情人节快到了...")
                            (chui-says "屁，情人节还一个多月呢。不过嘛... 看在好基友的份上")
                            (me-says "怎么着")
                            (chui-says "(打开谷歌翻译，用谷歌的音调播放)叫爸爸")
-                           (me-says "爸... 你个数码暴龙皮啊")
+                           (me-says "爸你个数码暴龙皮啊，gkd")
                            (chui-says "好，我这就用 Hyperion 分析的凌筱竹六个月以来的行动路线")
                            (me-says "原来 Hyperion 这么强大的么...")
                            (chui-says "开玩笑，我开发的系统，能不强大...")
                            (me-says "全部分析完成大概要多久")
                            (chui-says "十分钟，你先去喝杯咖啡吧")
-                           "...")
+                           "..."
+                           "电话响了"
+                           (chui-says "分析结果出来了")
+                           (chui-says "分析显示，凌筱竹每天上午 6:00 - 6:30 之间离开宿舍")
+                           (chui-says "周六通常是7:00之后才离开宿舍，大概和周五晚上熬夜有关")
+                           (chui-says "吃完早饭之后就会去图书馆泡到中午 11:30 左右")
+                           (chui-says "然后吃午饭，在这之后她习惯会宿舍打个盹，下午 3:00 才出门")
+                           (chui-says "在实验室帮忙，实验室没事的时候就去自习室")
+                           (chui-says "下午 6:30 左右吃晚饭，然后去操场散步到7:00")
+                           (chui-says "之后再去实验室，9:00 再回宿舍")
+                           (me-says "...嗯，这样啊")
+                           (chui-says "不过，最近两周以来，她在吃晚饭之前都会去导师办公室转一圈")
+                           (me-says "嗯，多谢锤哥了")
+                           (chui-says "不用谢，这是当爸爸的应该做的")
+                           "取得了“行动轨迹”情报")
                    (choices (choice "调查完毕" 6)))
-            (scene 9 (list (me-says "凌筱竹的舍友应该知道一些有关的信息吧"))
+            (scene 9 (list (me-says "凌筱竹的舍友应该知道一些有关的信息吧")
+                           "打电话给萧雨菲"
+                           ())
                    (choices (choice "调查完毕" 6)))
             (scene 10 (list (me-says "那么，调查到此为止，是时候摊牌了"))
                    game-over)
