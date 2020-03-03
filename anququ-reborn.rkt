@@ -8,7 +8,7 @@
 (define (me-says sth) (say "Anqur" sth))
 ; 凌筱竹，可选的女主角，安去去的师妹
 (define (lxz-says sth) (say "凌筱竹" sth))
-; 萧雨菲，凌筱竹的舍友，安去去的中学同学
+; 萧雨菲，凌筱竹的舍友，安去去中学时的班长
 (define (xyf-says sth) (say "萧雨菲" sth))
 ; 流云坠海（Lyzh），网络安全工程师，酒精差分机（AlcoholDiff）反间谍系统的编写者，安去去的死党
 (define (lyzh-says sth) (say "Lyzh" sth))
@@ -230,7 +230,19 @@
                    (choices (choice "调查完毕" 6)))
             (scene 9 (list (me-says "凌筱竹的舍友应该知道一些有关的信息吧")
                            "打电话给萧雨菲"
-                           ())
+                           (xyf-says "哟，是什么风把大火箭科学家吹来了")
+                           (me-says "哎呀我的老班长，我寻思...")
+                           (xyf-says "我知道，是为凌筱竹的事吧")
+                           (me-says "你咋知道")
+                           (xyf-says "嗨你是不知道，我们女生宿舍都传疯了。说吧，你对凌筱竹有啥企图？")
+                           (me-says "我想问一下，凌筱竹最近有没有什么...变化")
+                           (xyf-says "哦为这个啊，看得出来你还挺关心她的，变化这个...我想想啊...")
+                           (xyf-says "...哦，她最近似乎挺用功的，每天回来就研究火箭燃料")
+                           (xyf-says "这也是一片好心啊，为了不给你拖后腿啊")
+                           (xyf-says "你可千万别辜负人家一片真心诚意啊")
+                           "真心诚意，这几个字听起来格外讽刺"
+                           (me-says "嗯，我知道了，我会提醒筱竹的")
+                           "取得了“宿舍日常”情报")
                    (choices (choice "调查完毕" 6)))
             (scene 10 (list (me-says "那么，调查到此为止，是时候摊牌了"))
                    game-over)
