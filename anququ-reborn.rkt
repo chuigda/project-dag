@@ -4,7 +4,7 @@
 
 (define (unknown-says sth) (say "？？？" sth))
 
-; 安去去（Anqur），本作男主角，火箭工程师，猛犸（Mamooth）火箭引擎的最终设计者
+; 安去去（Anqur），本作男主角，火箭工程师，“猛犸”（Mamooth）火箭引擎的最终设计者
 (define (me-says sth) (say "Anqur" sth))
 ; 凌筱竹，可选的女主角，安去去的师妹
 (define (lxz-says sth) (say "凌筱竹" sth))
@@ -14,6 +14,10 @@
 (define (lyzh-says sth) (say "Lyzh" sth))
 ; 锤哥（Chuigda），精神控制能力者，休伯利安（Hyperion）系统的建设者，安去去的死党
 (define (chui-says sth) (say "Chuigda" sth))
+; 柠檬浣熊（LemonHX），火箭工程师，LV-60 “四个自信”火箭发动机的设计者
+(define (lmhx-says sth) (say "LemonHX" sth))
+; 缔翼（DE），火箭工程师，火箭研究所主要领导者
+(define (de-says sth) (say "DE" sth))
 
 (define anququ-reborn
   (build-game 

@@ -2,7 +2,7 @@
 
 (require "dagc.rkt")
 
-(play-game
+(define game
  (build-game "朴实无华且枯燥"                       ; 游戏名称
              "ICEY <icey@icey.tech>"                ; 游戏作者
              'CC0                                   ; 发布协议

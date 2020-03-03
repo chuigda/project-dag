@@ -2,7 +2,7 @@
 
 (require "dagc.rkt")
 
-(play-game
+(define game
  (build-game "开除员工与副作用"
              "ICEY <icey@icey.tech>"
              'CC0
@@ -38,3 +38,11 @@
              ; 初始化动作，设置游戏环境中 'cnt 初始为 0
              ; 初始化动作可以有多个，从上向下依次执行
              (lambda (game-env) (game-env 'set 'cnt 0))))
+
+; 存档系统演示
+(define game-result (play-game game))
+; 如果玩家在作出选择时输入了 save，游戏暂停保存，play-game 会返回继续游戏所需的所有信息
+(if (pair? game-result)
+    ; 使用 load-game 就可以读档接着玩
+    (load-game game game-result)
+    (void))

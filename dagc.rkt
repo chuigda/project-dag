@@ -5,7 +5,7 @@
         [(f (car ls)) (car ls)]
         [else (find f (cdr ls))]))
 
-(provide choice scene build-game play-game scenes choices game-over say)
+(provide choice scene build-game play-game load-game scenes choices game-over say)
 
 (define (display-twr s)
   (let ([chars (string->list s)])
@@ -43,12 +43,13 @@
   (game name author license topics desc scenes inits))
 
 (define (create-game-env)
-  (let ([vars (make-hash)])
-    (lambda (message . body)
-      (cond [(equal? message 'set)
-             (hash-set! vars (car body) (cadr body))]
-            [(equal? message 'get)
-             (hash-ref vars (car body) false)]))))
+  (create-game-env-with (make-hash)))
+
+(define (create-game-env-with vars)
+  (lambda (message . body)
+    (case message ['get (hash-ref vars (car body) false)]
+                  ['set (hash-set! vars (car body) (cadr body))]
+                  ['dump vars])))
 
 (define (enumerate list)
   (define (enumerate-int list counter)
@@ -58,7 +59,7 @@
               (enumerate-int (cdr list) (+ counter 1)))))
   (enumerate-int list 0))
 
-(define (start-game-with game init-scene game-env)
+(define (start-game-with game init-scene game-env skip-first-desc)
   (let ([name (game-name game)]
         [author (game-author game)]
         [license (game-license game)]
@@ -67,9 +68,12 @@
         [scenes (game-scenes game)])
     (call/cc
      (lambda (exit^)
-       (define (read-choice choices)
+       (define (read-choice scene-id choices)
          (define (read-choice-loop)
-           (let ([idx (string->number (string-trim (read-line)))])
+           (let* ([raw-input (string-trim (read-line))]
+                  [idx (if (equal? raw-input "save")
+                           (exit^ (cons scene-id (game-env 'dump)))
+                           (string->number raw-input))])
              (cond [(false? idx)
                     (begin (displayln "please input a positive integer")
                            (read-choice-loop))]
@@ -85,11 +89,13 @@
          (cond [(list? desc) (for-each display-desc desc)]
                [(procedure? desc) (display-desc (desc game-env))]
                [else (display-twr-pause desc)]))
-       (define (play-game-int scene)
+       (define (play-game-int scene skip-desc)
          (let ([id (scene-id scene)]
                [desc (scene-desc scene)]
                [choices (scene-choices scene)])
-           (display-desc desc)
+           (if skip-desc
+               (void)
+               (display-desc desc))
            (if (null? choices)
                (exit^ "game exited.")
                (begin
@@ -100,7 +106,7 @@
                       (displayln (string-append "  " (~a (+ 1 idx)) ". " (choice-desc choice)))))
                   (enumerate choices))
                  (display-flush "choice> ")
-                 (let* ([choice (read-choice choices)]
+                 (let* ([choice (read-choice id choices)]
                         [branch (choice-branch choice)]
                         [branch-actual (if (procedure? branch) (branch game-env) branch)]
                         [next-scene (find (lambda (scene) (= (scene-id scene) branch-actual))
@@ -109,17 +115,23 @@
                           (exit^ (string-append "sanity check failed: scene "
                                                 (~a branch-actual)
                                                 " does not exist"))]
-                         [else (play-game-int next-scene)]))))))
+                         [else (play-game-int next-scene false)]))))))
        (begin
          (displayln name)
          (displayln (string-append "created by: " author))
-         (play-game-int (find (lambda (scene) (= init-scene (scene-id scene))) scenes)))))))
+         (play-game-int (find (lambda (scene) (= init-scene (scene-id scene))) scenes)
+                        skip-first-desc))))))
 
 (define (play-game game)
   (let ([inits (game-inits game)]
         [game-env (create-game-env)])
     (begin
       (for-each (lambda (init) (init game-env)) inits)
-      (start-game-with game 1 game-env))))
+      (start-game-with game 1 game-env false))))
+
+(define (load-game game gamesave)
+  (let ([init-scene (car gamesave)]
+        [game-env (create-game-env-with (cdr gamesave))])
+    (start-game-with game init-scene game-env true)))
 
 (define (say x y) (string-append x "：「" y "」"))
