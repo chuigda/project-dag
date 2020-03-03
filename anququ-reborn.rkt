@@ -253,4 +253,5 @@
             (scene 11 "已经进行过这项调查了" (choices (choice "返回" 6)))
             )))
 
-(play-game anququ-reborn)
+; (play-game anququ-reborn)
+(load-game anququ-reborn (cons 6 (make-hash)))

@@ -41,7 +41,7 @@
 
 ; 存档系统演示
 (define game-result (play-game game))
-; 如果玩家在作出选择时输入了 save，游戏暂停保存，play-game 会返回继续游戏所需的所有信息
+; 如果玩家在作出选择时输入了 save，游戏暂停保存，play-game 会返回继续游戏所需的所有信息，一个 pair
 (if (pair? game-result)
     ; 使用 load-game 就可以读档接着玩
     (load-game game game-result)

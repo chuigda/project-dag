@@ -11,7 +11,7 @@
   (let ([chars (string->list s)])
     (define (display-twr-iter chars)
       (if (null? chars)
-          void
+          (display " ▷")
           (begin
             (write-char (car chars))
             (sleep 0.05)
@@ -70,6 +70,7 @@
      (lambda (exit^)
        (define (read-choice scene-id choices)
          (define (read-choice-loop)
+           (display-flush "choice> ")
            (let* ([raw-input (string-trim (read-line))]
                   [idx (if (equal? raw-input "save")
                            (exit^ (cons scene-id (game-env 'dump)))
@@ -105,7 +106,6 @@
                           [choice (cdr p)])
                       (displayln (string-append "  " (~a (+ 1 idx)) ". " (choice-desc choice)))))
                   (enumerate choices))
-                 (display-flush "choice> ")
                  (let* ([choice (read-choice id choices)]
                         [branch (choice-branch choice)]
                         [branch-actual (if (procedure? branch) (branch game-env) branch)]
