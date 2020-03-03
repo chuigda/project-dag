@@ -16,16 +16,19 @@
                                          ; 确定移动到那个状态
                                          (lambda (game-env) (if (= (game-env 'get 'cnt) 3)
                                                                 ; 如果已经开除了三个员工，就此收手
-                                                                ; 否则继续开除
                                                                 3
-                                                                2)))
+                                                                ; 否则继续开除，已经开除的员工数量+1
+                                                                (begin
+                                                                  (game-env 'set 'cnt 
+                                                                            (+ (game-env 'get 'cnt) 
+                                                                               1))
+                                                                  2))))
                                  (choice "不开除" 4)))
                (scene 2
                  ; 这里也不再使用常量作为 desc，而是根据 game-env 中的 'cnt 更新desc
+                 ; 注意：不建议在场景描述生成器里改变game-env，否则可能造成存档问题
                  (lambda (game-env)
                    (begin
-                     ; 此外每次进入场景 2，也就意味着又开除了一个员工，'cnt 自增 1
-                     (game-env 'set 'cnt (+ (game-env 'get 'cnt) 1))
                      (string-append "无聊的周一，翻开我名下的杂志，随便指了一名十佳员工，"
                                     "吩咐人事经理把他辞退。\n"
                                     "你已经开除了 " (~a (game-env 'get 'cnt)) " 个员工。")))

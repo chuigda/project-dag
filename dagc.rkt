@@ -58,15 +58,13 @@
               (enumerate-int (cdr list) (+ counter 1)))))
   (enumerate-int list 0))
 
-(define (play-game game)
+(define (start-game-with game init-scene game-env)
   (let ([name (game-name game)]
         [author (game-author game)]
         [license (game-license game)]
         [topics (game-topics game)]
         [desc (game-desc game)]
-        [scenes (game-scenes game)]
-        [inits (game-inits game)]
-        [game-env (create-game-env)])
+        [scenes (game-scenes game)])
     (call/cc
      (lambda (exit^)
        (define (read-choice choices)
@@ -113,9 +111,15 @@
                                                 " does not exist"))]
                          [else (play-game-int next-scene)]))))))
        (begin
-         (for-each (lambda (init) (init game-env)) inits)
          (displayln name)
          (displayln (string-append "created by: " author))
-         (play-game-int (car scenes)))))))
+         (play-game-int (find (lambda (scene) (= init-scene (scene-id scene))) scenes)))))))
+
+(define (play-game game)
+  (let ([inits (game-inits game)]
+        [game-env (create-game-env)])
+    (begin
+      (for-each (lambda (init) (init game-env)) inits)
+      (start-game-with game 1 game-env))))
 
 (define (say x y) (string-append x "：「" y "」"))
